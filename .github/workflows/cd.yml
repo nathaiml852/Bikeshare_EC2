@@ -16,11 +16,14 @@ jobs:
         env: 
           DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
         run: sudo docker pull $DOCKER_USER/bikesharing-fastapi:latest
-    
+
+      - name: Stop Old Docker Container (if running)
+        run: sudo docker stop bikesharing-fastapi-container || true
+
       - name: Delete Old Docker Container
-        run: sudo docker rm -f bikesharing-fastapi-container || true
+        run: sudo docker rm bikesharing-fastapi-container || true
     
       - name: Run Docker Container
         env: 
           DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
-        run: sudo docker run -it -d -p 8001:8001 --name bikesharing-fastapi-container $DOCKER_USER/bikesharing-fastapi:latest
+        run: sudo docker run -it -d --restart=always -p 8001:8001 --name bikesharing-fastapi-container $DOCKER_USER/bikesharing-fastapi:latest
