@@ -99,5 +99,6 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
       run: docker push $DOCKER_USER/bikesharing-fastapi
 
+      
     - name: Logout to Docker hub
       run: docker logout
